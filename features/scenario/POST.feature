@@ -1,8 +1,8 @@
-Feature: POST
+Feature: post
 
-  Scenario Outline:
-    When send additional <param> and <paramValue> and <newBody> informatoin
-    Then Correct <newBody> and <param> and <paramValue> is in responce
+  Scenario Outline: Validate that parameters have been sent are returned in response
+    When send additional parameter: <param> and parameter value: <paramValue> and body: <newBody> informatoin
+    Then Correct data is returned in the response
       Examples:
         | param     |paramValue     | newBody         |
         |testParam |testParamValue  |{"DV1":"DVtest1"}|

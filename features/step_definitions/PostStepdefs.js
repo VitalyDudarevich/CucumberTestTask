@@ -1,10 +1,16 @@
 const { expect } = require('chai');
-const { Given, When, Then } = require('cucumber');
-const request = require ('request');
+const { When, Then } = require('cucumber');
+const request = require('request');
 let parsedBody;
 let parsedArg;
+let parameter;
+let parameterValue;
+let expectedBody;
 
-When (/^send additional (.*) and (.*) and (.*) informatoin$/, function (param, paramValue, newBody){
+When (/^send additional parameter: (.*) and parameter value: (.*) and body: (.*) informatoin$/, function (param, paramValue, newBody){
+    parameter = param;
+    parameterValue = paramValue;
+    expectedBody = newBody;
     return new Promise(function(resolve, reject) {
         request.post({
                 url: `http://www.httpbin.org/post?${param}=${paramValue}`,
@@ -22,8 +28,8 @@ When (/^send additional (.*) and (.*) and (.*) informatoin$/, function (param, p
     });
 });
 
-Then(/^Correct (.*) and (.*) and (.*) is in responce$/, function (newBody, param, paramValue){
-    expect (parsedBody).to.equal(newBody);
-    expect (parsedArg).to.deep.equal(JSON.parse(`{"${param}": "${paramValue}"}`));
-    expect (Object.assign(parsedBody, parsedArg)).to.deep.equal(Object.assign(newBody, JSON.parse(`{"${param}": "${paramValue}"}`)));
+Then(/^Correct data is returned in the response$/, function(){
+    expect(parsedBody).to.equal(expectedBody);
+    expect(parsedArg).to.deep.equal(JSON.parse(`{"${parameter}": "${parameterValue}"}`));
+    expect(Object.assign(parsedBody, parsedArg)).to.deep.equal(Object.assign(expectedBody, JSON.parse(`{"${parameter}": "${parameterValue}"}`)));
 });
