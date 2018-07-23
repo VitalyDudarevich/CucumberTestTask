@@ -1,6 +1,8 @@
 const { expect } = require('chai');
 const { Given, When, Then } = require('cucumber');
 const request = require('request');
+const config = require ('../../configs/config.json');
+let baseURL = config.urls.testUrl;
 let statusCode;
 let expectedUser;
 let expectedPassword;
@@ -12,7 +14,7 @@ Given(/^(.*) is registered with the (.*)$/, function(userInDB, passwordInDB){
 
 When (/^Log in with (.*), (.*) credentials$/, function(user1, password){
     return new Promise(function(resolve, reject) {
-        request.get({url: `http://${user1}:${password}@www.httpbin.org/basic-auth/${expectedUser}/${expectedPassword}`},
+        request.get({url: `http://${user1}:${password}@${baseURL.replace('http://','')}/basic-auth/${expectedUser}/${expectedPassword}`},
             function(err, resp, body) {
                 if (err) {
                     reject(err);

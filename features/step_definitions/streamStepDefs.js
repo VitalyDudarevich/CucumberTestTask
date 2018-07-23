@@ -1,12 +1,14 @@
 const { expect } = require('chai');
 const { When, Then } = require('cucumber');
 const request = require('request');
+const config = require ('../../configs/config.json');
+let baseURL = config.urls.testUrl;
 let counting;
 let statusCode;
 
 When(/^Send the number: (\d+) of streams$/, function(number) {
     return new Promise(function(resolve, reject) {
-        request.get({url: `http://www.httpbin.org/stream/${number}`}, function(err, resp, body) {
+        request.get({url: baseURL+`/stream/${number}`}, function(err, resp, body) {
             statusCode = resp.statusCode;
             counting =((body).match((/url/g) || []).length);
             if (err) {

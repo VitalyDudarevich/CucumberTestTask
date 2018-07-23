@@ -1,6 +1,8 @@
 const { expect } = require('chai');
 const { When, Then } = require('cucumber');
 const request = require('request');
+const config = require ('../../configs/config.json');
+let baseURL = config.urls.testUrl;
 let parsedBody;
 let parsedArg;
 let parameter;
@@ -13,7 +15,7 @@ When (/^send additional parameter: (.*) and parameter value: (.*) and body: (.*)
     expectedBody = newBody;
     return new Promise(function(resolve, reject) {
         request.post({
-                url: `http://www.httpbin.org/post?${param}=${paramValue}`,
+                url: baseURL+`/post?${param}=${paramValue}`,
                 headers: {"Content-type": "application/json"},
                 body: JSON.stringify({newBody})},
             function(err, resp, body) {

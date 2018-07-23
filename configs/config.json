@@ -1,0 +1,5 @@
+{
+  "urls":{
+    "testUrl": "http://www.httpbin.org"
+  }
+}
